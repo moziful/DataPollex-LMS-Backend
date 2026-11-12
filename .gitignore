@@ -6,6 +6,8 @@ node_modules/
 .env.local
 .env.*.local
 
+seed.js
+
 # Logs
 logs
 *.log
