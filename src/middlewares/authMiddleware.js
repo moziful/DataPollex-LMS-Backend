@@ -37,9 +37,11 @@ export const protect = async (req, res, next) => {
             }
             req.user = {
                 id: admin._id,
+                _id: admin._id,
                 name: admin.name,
                 email: admin.email,
                 role: 'admin',
+                avatar: admin.avatar || '',
             };
         } else {
             const user = await User.findById(decoded.id).select('-password');
@@ -55,6 +57,7 @@ export const protect = async (req, res, next) => {
                 name: user.name,
                 email: user.email,
                 role: user.role || 'student',
+                avatar: user.avatar || '',
                 lastProgress: user.lastProgress || null,
             };
         }

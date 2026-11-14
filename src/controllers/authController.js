@@ -53,6 +53,7 @@ export const login = async (req, res, next) => {
                     name: admin.name,
                     email: admin.email,
                     role: 'admin',
+                    avatar: admin.avatar || '',
                 },
             });
         }
@@ -84,6 +85,7 @@ export const login = async (req, res, next) => {
                     name: user.name,
                     email: user.email,
                     role: user.role || 'student',
+                    avatar: user.avatar || '',
                     lastProgress: user.lastProgress || null,
                 },
             });
@@ -224,6 +226,61 @@ export const updateProgress = async (req, res, next) => {
             message: 'Learning progress updated successfully',
             data: user.lastProgress,
         });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Update authenticated user profile (name, avatar)
+// @route   PUT /api/auth/profile
+// @access  Private
+export const updateProfile = async (req, res, next) => {
+    try {
+        const { name, avatar } = req.body;
+        const userId = req.user.id || req.user._id;
+
+        if (req.user.role === 'admin') {
+            const admin = await Admin.findById(userId);
+            if (!admin) {
+                return res.status(404).json({ success: false, message: 'Admin account not found' });
+            }
+            if (name && name.trim()) admin.name = name.trim();
+            if (typeof avatar === 'string') admin.avatar = avatar.trim();
+            await admin.save();
+
+            return res.json({
+                success: true,
+                message: 'Admin profile updated successfully',
+                user: {
+                    id: admin._id,
+                    name: admin.name,
+                    email: admin.email,
+                    role: 'admin',
+                    avatar: admin.avatar || '',
+                },
+            });
+        } else {
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ success: false, message: 'User account not found' });
+            }
+            if (name && name.trim()) user.name = name.trim();
+            if (typeof avatar === 'string') user.avatar = avatar.trim();
+            await user.save();
+
+            return res.json({
+                success: true,
+                message: 'Profile updated successfully',
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role || 'student',
+                    avatar: user.avatar || '',
+                    lastProgress: user.lastProgress || null,
+                },
+            });
+        }
     } catch (error) {
         next(error);
     }

@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema(
             enum: ['student', 'user'],
             default: 'student',
         },
+        avatar: {
+            type: String,
+            default: '',
+        },
         lastProgress: {
             courseId: {
                 type: mongoose.Schema.Types.ObjectId,
