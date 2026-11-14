@@ -1,15 +1,9 @@
 import express from 'express';
+import { getAllCourses, getCourseById } from '../controllers/courseController.js';
 
 const router = express.Router();
 
-// api/courses
-router.get('/', (req, res) => {
-    res.json({
-        success: true,
-        message: 'Courses API is working',
-        data: [],
-    });
-});
+router.get('/', getAllCourses);
+router.get('/:id', getCourseById);
 
 export default router;
-

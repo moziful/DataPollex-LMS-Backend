@@ -1,10 +1,14 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import connectDB from './src/config/db.js';
 import courseRoutes from './src/routes/courseRoutes.js';
 import { errorHandler } from './src/middlewares/errorMiddleware.js';
 
 const app = express();
+
+// Connect to Database
+connectDB();
 
 // Middlewares
 app.use(
