@@ -84,6 +84,7 @@ export const login = async (req, res, next) => {
                     name: user.name,
                     email: user.email,
                     role: user.role || 'student',
+                    lastProgress: user.lastProgress || null,
                 },
             });
         }
@@ -176,6 +177,52 @@ export const getMe = async (req, res, next) => {
         return res.json({
             success: true,
             user: req.user,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Update student course & lecture progress
+// @route   PUT /api/auth/progress
+// @access  Private (Student/User)
+export const updateProgress = async (req, res, next) => {
+    try {
+        const { courseId, courseTitle, courseThumbnail, lectureId, lectureTitle, lectureIndex } = req.body;
+
+        if (!courseId) {
+            return res.status(400).json({
+                success: false,
+                message: 'courseId is required to record progress',
+            });
+        }
+
+        const userId = req.user.id || req.user._id;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User account not found',
+            });
+        }
+
+        user.lastProgress = {
+            courseId,
+            courseTitle: courseTitle || user.lastProgress?.courseTitle || '',
+            courseThumbnail: courseThumbnail || user.lastProgress?.courseThumbnail || '',
+            lectureId: lectureId || null,
+            lectureTitle: lectureTitle || '',
+            lectureIndex: typeof lectureIndex === 'number' ? lectureIndex : 0,
+            updatedAt: new Date(),
+        };
+
+        await user.save();
+
+        return res.json({
+            success: true,
+            message: 'Learning progress updated successfully',
+            data: user.lastProgress,
         });
     } catch (error) {
         next(error);

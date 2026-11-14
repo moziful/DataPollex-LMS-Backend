@@ -23,6 +23,36 @@ const userSchema = new mongoose.Schema(
             enum: ['student', 'user'],
             default: 'student',
         },
+        lastProgress: {
+            courseId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Course',
+            },
+            courseTitle: {
+                type: String,
+                default: '',
+            },
+            courseThumbnail: {
+                type: String,
+                default: '',
+            },
+            lectureId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Lecture',
+            },
+            lectureTitle: {
+                type: String,
+                default: '',
+            },
+            lectureIndex: {
+                type: Number,
+                default: 0,
+            },
+            updatedAt: {
+                type: Date,
+                default: Date.now,
+            },
+        },
     },
     {
         timestamps: true,
