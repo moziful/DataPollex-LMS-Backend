@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './src/config/db.js';
 import courseRoutes from './src/routes/courseRoutes.js';
+import authRoutes from './src/routes/authRoutes.js';
 import { errorHandler } from './src/middlewares/errorMiddleware.js';
 
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 });
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 
 // Error Middleware
