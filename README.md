@@ -135,6 +135,22 @@ The server will be running on `http://localhost:5000`.
 
 ---
 
+## 🚀 Upcoming Backend Features & Product Roadmap
+
+The following planned API endpoints and database models are scheduled for subsequent iterations:
+
+| Feature | Scope / Description | Architecture / Model |
+|---|---|---|
+| 🔐 **Self-Service Password Rotation** | Add `PUT /api/auth/update-password` with current password verification via bcrypt and new password hashing (matching the `Locked • Will add later` UI on frontend `/profile`). | Controller + Route (`authController.js`) |
+| 💳 **Enrollment & Payment Webhooks** | Add `Enrollment` model, transaction tracking, and webhook handlers for Stripe / SSLCommerz / bKash to restrict lectures to enrolled users. | New Model (`Enrollment.js`) & Controller |
+| 🎓 **Quizzes & Automated Certification** | Add `Quiz` and `Certificate` models with automated scoring endpoints and server-side PDF certificate generation. | New Models (`Quiz.js`, `Certificate.js`) |
+| 💬 **Lecture Q&A & Course Reviews** | Add `Comment` & `Review` schemas with nested replies, timestamps, and course rating aggregation. | New Models (`Comment.js`, `Review.js`) |
+| ☁️ **Cloud Storage Upload Pipeline** | Add presigned URL generation or multipart upload handlers for AWS S3 / Cloudinary for direct video & thumbnail uploads. | New Service / Middleware |
+| 📊 **Admin Analytics Aggregations** | MongoDB aggregation pipeline (`$lookup`, `$group`, `$facet`) to calculate platform statistics, active student counts, and revenue. | Controller (`analyticsController.js`) |
+| 📧 **Password Reset via Email** | SMTP service integration (Nodemailer / Resend) with crypto-generated single-use token expiration for password recovery. | Service (`emailService.js`) |
+
+---
+
 ## 🏢 Organization Details
 
 **DataPollex Ltd.**  
