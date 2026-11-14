@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Health Check Route
 app.get('/', (req, res) => {
-    res.json({ success: true, message: 'DataPollex LMS API is running' });
+    res.json({ success: true, message: 'DataPollex Academy API is running' });
 });
 
 // API Routes
